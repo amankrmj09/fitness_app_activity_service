@@ -1,8 +1,22 @@
 spring:
   application:
     name: activity_service
+  profiles:
+    active: dev
 
 server:
   port: 8071
   servlet:
-    context-path: activity-service/api/v1
+    context-path: /activity-service/api/v1
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8090/eureka-server/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-renewal-interval-in-seconds: 10      # send heartbeat every 10 seconds
+    lease-expiration-duration-in-seconds: 30
+    hostname: localhost

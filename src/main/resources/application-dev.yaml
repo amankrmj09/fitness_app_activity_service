@@ -6,3 +6,12 @@ spring:
       database: fitness_app_db
       username: fitness_app_admin
       password: fitness_app_admin_123
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/fitness_app_db
+#    username: fitness_app_admin
+#    password: fitness_app_admin_123
+
+
+#logging:
+#  level:
+#    root: debug
