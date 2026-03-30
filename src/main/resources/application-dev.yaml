@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: fitness_app_db
+      username: fitness_app_admin
+      password: fitness_app_admin_123

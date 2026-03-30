@@ -1,3 +1,8 @@
 spring:
   application:
     name: activity_service
+
+server:
+  port: 8071
+  servlet:
+    context-path: activity-service/api/v1
