@@ -1,0 +1,32 @@
+### create a activity
+POST http://localhost:8071/activity-service/api/v1/activities/create
+Content-Type: application/json
+
+{
+  "userId": "b1a7c8e2-1234-4f8a-9b2a-123456789abc",
+  "name": "Morning Run",
+  "description": "5km run in the park",
+  "type": "RUNNING",
+  "duration": 1800,
+  "metrics": {
+    "calories": 350,
+    "averagePace": 6.0
+  }
+}
+
+
+### create a activity with metrics as string
+POST http://localhost:8071/activity-service/api/v1/activities/create
+Content-Type: application/json
+
+{
+  "userId": "b1a7c8e2-1234-4f8a-9b2a-123456789abc",
+  "name": "Morning Walk",
+  "description": "10km walk in the park",
+  "type": "WALKING",
+  "duration": 1800,
+  "metrics": {
+    "calories": 350,
+    "averagePace": 6.0
+  }
+}
