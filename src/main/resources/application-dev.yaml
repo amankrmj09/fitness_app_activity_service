@@ -15,3 +15,11 @@ spring:
 #logging:
 #  level:
 #    root: debug
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
