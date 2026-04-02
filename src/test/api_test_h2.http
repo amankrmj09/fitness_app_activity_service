@@ -1,9 +1,38 @@
+### Create a new user with valid data
+POST http://localhost:8070/user-service/api/v1/users/register
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "email": "testuser3@email.com",
+  "password": "testpassword123adsdA",
+  "firstName": "Test",
+  "lastName": "User",
+  "phoneNumber": "1234567890",
+  "roles": ["ROLE_USER"]
+}
+
+> {%
+    client.test("Status is 201 Created", function() {
+        client.assert(response.status === 201, "Expected 201 but got " + response.status);
+    });
+
+    client.test("Response has username", function() {
+        client.assert(response.body.username === "testuser3", "Username mismatch");
+    });
+
+    client.test("Password is not exposed", function() {
+        client.assert(response.body.password === undefined, "Password should not be in response");
+    });
+%}
+
+
 ### create a activity
 POST http://localhost:8071/activity-service/api/v1/activities/create
 Content-Type: application/json
 
 {
-  "userId": "b1a7c8e2-1234-4f8a-9b2a-123456789abc",
+  "userId": "deec9940-a596-45d4-a8af-d968f3fef875",
   "name": "Morning Run",
   "description": "5km run in the park",
   "type": "RUNNING",
@@ -13,6 +42,21 @@ Content-Type: application/json
     "averagePace": 6.0
   }
 }
+
+> {%
+    client.test("Status is 201 Created", function() {
+        client.assert(response.status === 201, "Expected 201 but got " + response.status);
+    });
+
+    client.test("Response has activity name", function() {
+        client.assert(response.body.name === "Morning Run", "Activity name mismatch");
+    });
+
+    client.test("Metrics are returned correctly", function() {
+        client.assert(response.body.metrics.calories === 350, "Calories mismatch");
+        client.assert(response.body.metrics.averagePace === 6.0, "Average pace mismatch");
+    });
+%}
 
 
 ### create a activity with metrics as string
