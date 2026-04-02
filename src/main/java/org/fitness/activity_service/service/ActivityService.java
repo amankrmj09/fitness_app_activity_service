@@ -2,6 +2,8 @@ package org.fitness.activity_service.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.fitness.activity_service.client.UserClient;
+import org.fitness.activity_service.exception.ResourceNotFoundException;
 import org.fitness.activity_service.model.dto.ActivityDTO;
 import org.fitness.activity_service.model.entity.Activity;
 import org.fitness.activity_service.repository.ActivityRepository;
@@ -16,8 +18,17 @@ public class ActivityService {
 
     private final ModelMapper modelMapper;
 
+    private final UserClient userClient;
+
 
     public ActivityDTO saveActivity(@Valid ActivityDTO activityDTO) {
+
+        // Validate user ID using UserClient
+        Boolean isValidUser = userClient.validateUser(activityDTO.getUserId());
+        if (isValidUser == null || !isValidUser) {
+            throw new ResourceNotFoundException("Invalid user ID: " + activityDTO.getUserId());
+        }
+
         Activity activity = modelMapper.map(activityDTO, Activity.class);
 //        activity.setId(UUID.randomUUID());
         Activity savedActivity = activityRepository.save(activity);
