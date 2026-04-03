@@ -11,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 import java.util.Map;
@@ -43,9 +42,12 @@ public class Activity {
     @PositiveOrZero(message = "Duration cannot be negative")
     private long duration;
 
-    @Field("metrics")
+
+    @PositiveOrZero(message = "Calories burned cannot be negative")
+    private Integer caloriesBurned;
+
     @NotEmpty(message = "Activity metrics cannot be null")
-    private Map<String, Object> metrics;
+    private Map<String, Object> additionalMetrics;
 
     @CreatedDate
     private Instant createdAt;

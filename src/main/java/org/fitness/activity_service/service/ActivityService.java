@@ -1,6 +1,5 @@
 package org.fitness.activity_service.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.fitness.activity_service.client.UserClient;
 import org.fitness.activity_service.exception.ResourceNotFoundException;
@@ -8,6 +7,8 @@ import org.fitness.activity_service.model.dto.ActivityDTO;
 import org.fitness.activity_service.model.entity.Activity;
 import org.fitness.activity_service.repository.ActivityRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,8 +21,13 @@ public class ActivityService {
 
     private final UserClient userClient;
 
+    private final KafkaTemplate<String, Activity> kafkaTemplate;
 
-    public ActivityDTO saveActivity(@Valid ActivityDTO activityDTO) {
+    @Value("${kafka.topic.name}")
+    private String topicName;
+
+
+    public ActivityDTO saveActivity(ActivityDTO activityDTO) {
 
         // Validate user ID using UserClient
         Boolean isValidUser = userClient.validateUser(activityDTO.getUserId());
@@ -32,6 +38,11 @@ public class ActivityService {
         Activity activity = modelMapper.map(activityDTO, Activity.class);
 //        activity.setId(UUID.randomUUID());
         Activity savedActivity = activityRepository.save(activity);
+        try {
+            kafkaTemplate.send(topicName, savedActivity.getUserId(),savedActivity);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send activity to Kafka: " + e.getMessage());
+        }
         return modelMapper.map(savedActivity, ActivityDTO.class);
     }
 

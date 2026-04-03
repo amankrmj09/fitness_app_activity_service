@@ -34,5 +34,5 @@ public class ActivityDTO {
     private Instant createdAt;
 
     @NotEmpty(message = "Activity metrics cannot be blank")
-    private Map<String, Object> metrics;
+    private Map<String, Object> additionalMetrics;
 }
