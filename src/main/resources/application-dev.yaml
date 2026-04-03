@@ -7,6 +7,18 @@ spring:
       username: fitness_app_admin
       password: fitness_app_admin_123
 
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+kafka:
+  topic:
+    name: fitness-activity-topic
+
 #  datasource:
 #    url: jdbc:mysql://localhost:3306/fitness_app_db
 #    username: fitness_app_admin
