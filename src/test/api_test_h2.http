@@ -28,7 +28,7 @@ Content-Type: application/json
 
 
 ### create a activity
-POST http://localhost:8071/activity-service/api/v1/activities/create
+POST http://localhost:8071/api/v1/activities/create
 Content-Type: application/json
 
 {
